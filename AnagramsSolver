@@ -1,0 +1,44 @@
+# Since I've discovered many non-standard English words in the NLTK packages, I prefer to use an internal word list.
+# If you prefer to use the NLTK package, uncomment lines 4 to 11 and comment lines 13 to 20.
+
+# import nltk
+# from nltk.corpus import words
+
+# nltk.download('words', quiet=True)
+
+# list_words = words.words()
+# list_words = [word.lower() for word in list_words]
+# list_words = list(dict.fromkeys(list_words))
+
+def load_words():
+    with open('words_alpha.txt') as word_file:
+        list_words = set(word_file.read().split())
+
+    return [word.lower() for word in list_words]
+
+# Save it to a list named list_words
+list_words = list(load_words())
+
+# Function to arrange the words
+def ArrangeWord(list_words, characters_list):
+    
+    valid_chars = characters_list
+    matching_words = []
+    for word in list_words:
+        if all(word.count(char) <= valid_chars.count(char) for char in set(word)):
+            matching_words.append(word)
+    return matching_words
+
+# Input of characters we have
+list_characters = input("Type your own letters (no space): ")
+
+# Output
+characters_list = list_characters.lower()
+arranged_words = ArrangeWord(list_words, characters_list)
+
+arranged_words.sort(key=lambda x: (-len(x), x))
+
+print("Arranged Words:")
+for word in arranged_words:
+    if len(word) > 2:
+        print(word)
